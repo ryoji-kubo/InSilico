@@ -21,22 +21,37 @@ class MoleculeDataset(InMemoryDataset):
                  root='dataset',
                  name='CYP2C9',
                  task='regression',
+                 evaluate_on_test = False,
                  transform=None, 
                  pre_transform=None):
         self.task = task
         self.folder = osp.join(root, name)
         self.name = name
+        self.evaluate_on_test = evaluate_on_test
         super().__init__(self.folder, transform, pre_transform)
         self.data, self.slices = torch.load(self.processed_paths[0])
+        if self.evaluate_on_test == False and name != 'PPB':
+            self.mean = torch.mean(self.y)
+            self.std = torch.std(self.y)
+            torch.save((self.mean, self.std), osp.join(self.processed_dir, 'mean_and_std.pt'))
+        else:
+            self.mean = None
+            self.std = None
+            
 
     @property
     def raw_file_names(self):
-        return [f'/storage/ryoji/InSilico/Testsets/{self.name}_data.csv']
-        # f'/storage/ryoji/InSilico/Testsets/{self.name}_testset.csv'
+        if self.evaluate_on_test == False:
+            return [f'/storage/ryoji/InSilico/Testsets/{self.name}_data.csv']
+        else:
+            return [f'/storage/ryoji/InSilico/Testsets/{self.name}_testset.csv']
     
     @property
     def processed_file_names(self): # return the full file name
-        return ['data.pt']
+        if self.evaluate_on_test == False:
+            return ['data.pt']
+        else:
+            return ['test_data.pt']
     
     def download(self):
         pass
@@ -46,15 +61,26 @@ class MoleculeDataset(InMemoryDataset):
         for raw_file in self.raw_file_names:
             test_df = pd.read_csv(raw_file)
             for index, row in tqdm(test_df.iterrows(), desc='Converting Smile strings to Graphs', total=test_df.shape[0]):
-                try:
-                    smile_str = row['SMILES']
-                except:
-                    smile_str = row['standardized_smiles']
+                smile_col = [col for col in row.keys() if 'smile' in col.lower()]
+                assert len(smile_col) == 1
+                smile_col = smile_col[0]
+                smile_str = row[smile_col]
                 data = from_smiles(smile_str)
+
+                if self.evaluate_on_test == False:
+                    y_col = [col for col in row.keys() if 'value' in col.lower()]
+                    assert len(y_col) == 1
+                    y_col = y_col[0]
+
                 if data.edge_index.shape[1] == 0:
                     continue
+                
                 if self.task == 'regression':
-                    data.y = row['Standard Value']/100 # the label is between 0 - 100, convert it to [0, 1]
+                    if self.evaluate_on_test == False:
+                        if self.name == 'PPB':
+                            data.y = row[y_col]/100 # the label is between 0 - 100, convert it to [0, 1]
+                        else:
+                            data.y = row[y_col]
                 # data.y = torch.randint(1, (1, )) # for now, a random label
                 data_list.append(data)
 

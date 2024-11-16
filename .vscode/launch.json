@@ -8,9 +8,9 @@
             "name": "Python Debugger: Current File with Arguments",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/main.py",
+            "program": "${workspaceFolder}/get_result_csv.py",
             "console": "integratedTerminal",
-            "args": ["--device_id", "1", "--use_wandb"],
+            // "args": ["--device_id", "1"],
             "justMyCode": false
         }
     ]

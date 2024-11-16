@@ -1,0 +1,62 @@
+{
+  "os": "Linux-5.4.0-198-generic-x86_64-with-glibc2.31",
+  "python": "3.10.15",
+  "startedAt": "2024-11-16T12:50:43.456070Z",
+  "args": [
+    "--device_id",
+    "1",
+    "--use_wandb"
+  ],
+  "program": "/storage/ryoji/InSilico/main.py",
+  "codePath": "main.py",
+  "git": {
+    "remote": "https://github.com/ryoji-kubo/InSilico.git",
+    "commit": "56b337a8cf86cf57576deadb1c1f57d0811f0482"
+  },
+  "email": "oge208@nyu.edu",
+  "root": "/storage/ryoji/InSilico",
+  "host": "gnn",
+  "username": "ubuntu",
+  "executable": "/storage/miniconda3/envs/Insilico/bin/python",
+  "codePathLocal": "main.py",
+  "cpu_count": 64,
+  "cpu_count_logical": 128,
+  "gpu": "A100-SXM4-40GB",
+  "gpu_count": 4,
+  "disk": {
+    "/": {
+      "total": "77512441856",
+      "used": "25186140160"
+    }
+  },
+  "memory": {
+    "total": "4316419985408"
+  },
+  "cpu": {
+    "count": 64,
+    "countLogical": 128
+  },
+  "gpu_nvidia": [
+    {
+      "name": "A100-SXM4-40GB",
+      "memoryTotal": "42505273344",
+      "architecture": "Ampere"
+    },
+    {
+      "name": "A100-SXM4-40GB",
+      "memoryTotal": "42505273344",
+      "architecture": "Ampere"
+    },
+    {
+      "name": "A100-SXM4-40GB",
+      "memoryTotal": "42505273344",
+      "architecture": "Ampere"
+    },
+    {
+      "name": "A100-SXM4-40GB",
+      "memoryTotal": "42505273344",
+      "architecture": "Ampere"
+    }
+  ],
+  "cudaVersion": "11.1"
+}

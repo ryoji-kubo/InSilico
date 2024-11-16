@@ -57,9 +57,8 @@ class GINE(torch.nn.Module):
     """
     A GIN model using 3 layers of GIN
     """
-    def __init__(self, num_feats, num_classes, edge_dim):
+    def __init__(self, num_feats, num_classes, edge_dim, use_sigmoid_last=False, hidden_channels=20):
         super().__init__()
-        hidden_channels = 20
         self.mlp_gin1 = torch.nn.Linear(num_feats, hidden_channels)
         self.gin1 = GINEConv(self.mlp_gin1, edge_dim=edge_dim)
         self.mlp_gin2 = torch.nn.Linear(hidden_channels, hidden_channels)
@@ -67,6 +66,7 @@ class GINE(torch.nn.Module):
         self.mlp_gin3 = torch.nn.Linear(hidden_channels, hidden_channels)
         self.gin3 = GINEConv(self.mlp_gin3, edge_dim=edge_dim)
         self.lin = torch.nn.Linear(hidden_channels*2, num_classes)
+        self.use_sigmoid_last = use_sigmoid_last
 
     def forward(self, data):
         x = data.x.to(torch.float32)
@@ -85,7 +85,9 @@ class GINE(torch.nn.Module):
 
         out = self.lin(input_lin)
         
-        return torch.sigmoid(out)
+        if self.use_sigmoid_last:
+            out = torch.sigmoid(out)
+        return out
 
 
 if __name__ == '__main__':

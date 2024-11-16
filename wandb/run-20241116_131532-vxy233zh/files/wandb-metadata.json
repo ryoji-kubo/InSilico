@@ -1,0 +1,27 @@
+{
+  "os": "Linux-5.4.0-198-generic-x86_64-with-glibc2.31",
+  "python": "3.10.15",
+  "startedAt": "2024-11-16T13:15:32.883717Z",
+  "args": [
+    "--device_id",
+    "1",
+    "--use_wandb",
+    "--name",
+    "MCDK_MDR1",
+    "--wandb_name",
+    "MCDK_MRI_model",
+    "--num_epochs=10"
+  ],
+  "program": "/storage/ryoji/InSilico/main.py",
+  "codePath": "main.py",
+  "git": {
+    "remote": "https://github.com/ryoji-kubo/InSilico.git",
+    "commit": "56b337a8cf86cf57576deadb1c1f57d0811f0482"
+  },
+  "email": "oge208@nyu.edu",
+  "root": "/storage/ryoji/InSilico",
+  "host": "gnn",
+  "username": "ubuntu",
+  "executable": "/storage/miniconda3/envs/Insilico/bin/python",
+  "codePathLocal": "main.py"
+}
